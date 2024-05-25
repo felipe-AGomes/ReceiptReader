@@ -6,9 +6,9 @@ import java.util.List;
 public class Product {
     private String codigo;
     private String nome;
-    private String quantidade;
+    private Double quantidade;
     private String unidade;
-    private String valor;
+    private Double valor;
 
     public String getNome() {
         return nome;
@@ -26,11 +26,11 @@ public class Product {
         this.codigo = codigo;
     }
 
-    public String getQuantidade() {
+    public Double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(String quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -42,11 +42,11 @@ public class Product {
         this.unidade = unidade;
     }
 
-    public String getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
@@ -63,26 +63,14 @@ public class Product {
         return sb.toString();
     }
 
-    public List<String> getColumnNames() {
-        List<String> columns = new ArrayList<>();
-
-        columns.add("codigo");
-        columns.add("nome");
-        columns.add("quantidade");
-        columns.add("valor");
-        columns.add("unidade");
-
-        return columns;
-    }
-
-    public String getPosition(int index) {
-        return switch (index) {
-            case 0 -> getCodigo();
-            case 1 -> getNome();
-            case 2 -> getQuantidade();
-            case 3 -> getValor();
-            case 4 -> getUnidade();
-            default -> throw new IllegalArgumentException("Invalid index: " + index);
+    public Object getPosition(ProductColumn column) {
+        return switch (column) {
+            case CODIGO -> getCodigo();
+            case NOME -> getNome();
+            case QUANTIDADE -> getQuantidade();
+            case VALOR -> getValor();
+            case UNIDADE -> getUnidade();
+            default -> throw new IllegalArgumentException("Invalid column: " + column);
         };
     }
 }
