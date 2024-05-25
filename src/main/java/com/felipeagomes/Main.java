@@ -1,21 +1,21 @@
 package com.felipeagomes;
 
+import com.felipeagomes.products.Product;
+import com.felipeagomes.products.ProductAggregator;
 import com.felipeagomes.receipt.ReceiptReader;
 import com.felipeagomes.service.ExcelReceiptBuilder;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         final String XLSX_EXTENSION = ".xls";
 
-        ReceiptReader receiptReader = new ReceiptReader(new File("C:\\Users\\falme\\Downloads\\receipt.pdf"));
+        ReceiptReader receiptReader = new ReceiptReader(new File("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf"));
 
-        /*System.out.println(receiptReader.getProducts());
-        System.out.println(receiptReader.getCompanyName());
-        System.out.println(receiptReader.getDate());
-        System.out.println(receiptReader.getTitle());*/
+        receiptReader.setProducts(aggregateProducts(receiptReader));
 
         Path resultPath = Path.of("C:\\Users\\falme\\Downloads\\" + receiptReader.getTitle() + XLSX_EXTENSION);
 
@@ -28,5 +28,11 @@ public class Main {
 
         excelBuilder.create();
 
+    }
+
+    private static List<Product> aggregateProducts(ReceiptReader receiptReader) {
+        ProductAggregator aggregator = new ProductAggregator();
+        List<Product> products = receiptReader.getProducts();
+        return aggregator.aggregateByCodigo(products);
     }
 }

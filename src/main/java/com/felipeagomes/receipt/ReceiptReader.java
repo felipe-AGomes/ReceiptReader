@@ -46,7 +46,16 @@ public class ReceiptReader {
     }
 
     private String extractCompanyNameFromContent() {
-        return contentLines.getFirst();
+        for (int i = 0; i < contentLines.size(); i++) {
+            int previousLine = i - 1;
+            String line = contentLines.get(i);
+
+            if (line.startsWith("CNPJ:")) {
+                return contentLines.get(previousLine);
+            }
+        }
+
+        return "";
     }
 
     private Date extractDateFromContent() {
@@ -59,7 +68,7 @@ public class ReceiptReader {
         for (String line : contentLines) {
             if (line.startsWith("EMISSÃO")) {
                 int index = contentLines.indexOf(line) + 1;
-                return contentLines.size() > index ? contentLines.get(index) : null;
+                return contentLines.get(index);
             }
         }
         return null;
@@ -74,13 +83,14 @@ public class ReceiptReader {
 
     private List<Product> extractProductsFromContent() {
         List<Product> products = new ArrayList<>();
-        for (String line : contentLines) {
+        for (int i = 0; i < contentLines.size(); i++) {
+            String line = contentLines.get(i);
             if (line.startsWith("Qtde.")) {
-                int index = contentLines.indexOf(line);
-                Product product = createProductFromLines(index);
+                Product product = createProductFromLines(i);
                 products.add(product);
             }
         }
+
         return products;
     }
 
@@ -88,6 +98,7 @@ public class ReceiptReader {
         Product product = new Product();
         setProductInfo(product, index);
         setProductQuantityUnitValue(product, contentLines.get(index));
+
         return product;
     }
 
@@ -162,5 +173,9 @@ public class ReceiptReader {
 
     public Receipt getReceipt() {
         return new Receipt(products);
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
