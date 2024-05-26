@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         final String XLSX_EXTENSION = ".xls";
 
-        ReceiptReader receiptReader = new ReceiptReader(new File("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf"));
+        ReceiptReader receiptReader = new ReceiptReader(new File("C:\\Users\\falme\\Downloads\\receipt.pdf"));
 
         receiptReader.setProducts(aggregateProducts(receiptReader));
 

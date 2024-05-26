@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ReceiptReader {
+
     private List<String> contentLines;
     private List<Product> products = new ArrayList<>();
     private String companyName;
@@ -49,12 +50,10 @@ public class ReceiptReader {
         for (int i = 0; i < contentLines.size(); i++) {
             int previousLine = i - 1;
             String line = contentLines.get(i);
-
             if (line.startsWith("CNPJ:")) {
                 return contentLines.get(previousLine);
             }
         }
-
         return "";
     }
 
@@ -90,44 +89,48 @@ public class ReceiptReader {
                 products.add(product);
             }
         }
-
         return products;
     }
 
     private Product createProductFromLines(int index) {
+        String line = this.contentLines.get(index);
+        String previousLine = this.contentLines.get(index - 1);
+        String beforePreviousLine = index > 1 ? contentLines.get(index - 2) : "";
+
         Product product = new Product();
-        setProductInfo(product, index);
-        setProductQuantityUnitValue(product, contentLines.get(index));
+        product.setNome(getProductName(previousLine, beforePreviousLine));
+        product.setCodigo(getProductCodigo(previousLine));
+        product.setUnidade(getProductUnidade(line));
+        product.setQuantidade(getProductQuantidade(line));
+        product.setValor(getProductValor(line));
 
         return product;
     }
 
-    private void setProductInfo(Product product, int index) {
-        String productName;
-        String productCode;
-        String previousLine = contentLines.get(index - 1);
-        String lineBeforePrevious = index > 1 ? contentLines.get(index - 2) : "";
-
-        Pattern codigoPattern = Pattern.compile("^\\({0,1}\\s*(?:Código: ){0,1}[0-9]*\\s*\\)");
-        Matcher codigoMatcher = codigoPattern.matcher(previousLine);
-
-        if (codigoMatcher.find()) {
-            productName = extractProductName(lineBeforePrevious);
-        } else {
-            productName = extractProductName(previousLine);
-        }
-        productCode = extractProductCode(previousLine);
-
-        product.setNome(productName);
-        product.setCodigo(productCode);
+    private Double getProductValor(String line) {
+        return Double.parseDouble(extractPatternFromLine("Unit\\.:   ([0-9,]*)", line).replace(".", "").replace(",", "."));
     }
 
-    private void setProductQuantityUnitValue(Product product, String line) {
-        product.setUnidade(extractPatternFromLine("UN:\\s([A-Za-z]*)", line));
-        String quantidadeString = extractPatternFromLine("Qtde\\.:([0-9,]*)", line).replace(".", "").replace(",", ".");
-        product.setQuantidade(Double.parseDouble(quantidadeString));
-        String valorString = extractPatternFromLine("Unit\\.:   ([0-9,]*)", line);
-        product.setValor(Double.parseDouble(valorString.replace(".", "").replace(",", ".")));
+    private Double getProductQuantidade(String line) {
+        return Double.parseDouble(extractPatternFromLine("Qtde\\.:([0-9,]*)", line).replace(".", "").replace(",", "."));
+    }
+
+    private String getProductUnidade(String line) {
+        return extractPatternFromLine("UN:\\s([A-Za-z]*)", line);
+    }
+
+    private String getProductCodigo(String previousLine) {
+        return extractProductCode(previousLine);
+    }
+
+    private String getProductName(String previousLine, String lineBeforePrevious) {
+        Pattern codigoPattern = Pattern.compile("^\\({0,1}\\s*(?:Código: ){0,1}[0-9]*\\s*\\)");
+        Matcher codigoMatcher = codigoPattern.matcher(previousLine);
+        if (codigoMatcher.find()) {
+            return extractProductName(lineBeforePrevious);
+        } else {
+            return extractProductName(previousLine);
+        }
     }
 
     private String extractProductName(String inputString) {
