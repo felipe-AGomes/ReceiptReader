@@ -1,24 +1,23 @@
 package com.felipeagomes.reports.excel;
 
+import com.felipeagomes.dtos.interfaces.ProductsReceiptsDtoInterface;
 import com.felipeagomes.exceptions.IncompleteReportBuilderException;
 import com.felipeagomes.mappers.MapperService;
 import com.felipeagomes.reports.interfaces.ReportBuilder;
-import com.felipeagomes.repositories.interfaces.QueryService;
+import com.felipeagomes.repositories.interfaces.EntityService;
 
 import java.nio.file.Path;
 import java.util.List;
 
-public class ExcelReportBuilder<S> implements ReportBuilder<S, ExcelReportBuilder<S>> {
-    final private QueryService queryService;
-    final private MapperService<S> mapperService;
+public class ExcelReportBuilder<S extends ProductsReceiptsDtoInterface> implements ReportBuilder<S, ExcelReportBuilder<S>> {
+    final private EntityService entityService;
     private String query;
     private String title;
     private Path resultPath;
     private Class<S> structure;
 
-    public ExcelReportBuilder(QueryService queryService, MapperService<S> mapperService) {
-        this.queryService = queryService;
-        this.mapperService = mapperService;
+    public ExcelReportBuilder(EntityService entityService) {
+        this.entityService = entityService;
     }
 
     @Override
@@ -57,7 +56,7 @@ public class ExcelReportBuilder<S> implements ReportBuilder<S, ExcelReportBuilde
 
         List<S> dtos = executeQueryAndGetResultList(query, structure);
 
-        List<DataRow> dataRows = dtos.stream().map(mapperService::toDataRow).toList();
+        List<DataRow> dataRows = dtos.stream().map(entityService::toDataRow).toList();
 
         SimpleExcelBuilder simpleExcelBuilder = new SimpleExcelBuilder();
         simpleExcelBuilder
@@ -67,7 +66,7 @@ public class ExcelReportBuilder<S> implements ReportBuilder<S, ExcelReportBuilde
                 .build();
     }
 
-    private <T> List<T> executeQueryAndGetResultList(String namedQuery, Class<T> structure) {
-        return queryService.executeQueryAndGetResultList(namedQuery, structure);
+    private <T extends ProductsReceiptsDtoInterface> List<T> executeQueryAndGetResultList(String namedQuery, Class<T> structure) {
+        return entityService.executeQueryAndGetResultList(namedQuery, structure);
     }
 }

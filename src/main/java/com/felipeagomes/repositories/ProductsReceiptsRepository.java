@@ -1,5 +1,6 @@
 package com.felipeagomes.repositories;
 
+import com.felipeagomes.dtos.ProductsReceiptsDto;
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.exceptions.ProductsReceiptsAlreadyExistsException;
 import jakarta.persistence.*;
@@ -38,9 +39,9 @@ public class ProductsReceiptsRepository {
         }
     }
 
-    public <T> List<T> executeQueryAndGetResultList(String namedQuery, Class<T> structure) {
+    public List<ProductsReceiptsDto> executeQueryAndGetResultList(String namedQuery) {
         try (EntityManager em = emf.createEntityManager()) {
-            Query query = em.createNamedQuery(namedQuery, structure);
+            Query query = em.createNamedQuery(namedQuery, ProductsReceiptsDto.class);
             return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException(e);

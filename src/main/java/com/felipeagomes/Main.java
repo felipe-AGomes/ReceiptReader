@@ -1,6 +1,6 @@
 package com.felipeagomes;
 
-import com.felipeagomes.dtos.ProductsReceiptsDto;
+import com.felipeagomes.dtos.ProductsReceiptsWithTotValueDto;
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.mappers.ProductsReceiptsMapper;
 import com.felipeagomes.receipts.ReceiptReader;
@@ -19,7 +19,7 @@ public class Main {
     final private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReceipReader");
     final private static ProductsReceiptsRepository productsReceiptsRepository = new ProductsReceiptsRepository(emf);
     final private static ProductsReceiptsMapper productsReceiptsMapper = new ProductsReceiptsMapper();
-    final private static ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(productsReceiptsRepository);
+    final private static ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(productsReceiptsRepository, productsReceiptsMapper);
 
     public static void main(String[] args) {
         //saveProductsReceipts("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf");
@@ -31,11 +31,11 @@ public class Main {
         final String TITLE_REPORT = "RELATÓRIO_RECIBOS";
         final Path RESULT_PATH = Path.of("C:\\Users\\falme\\Downloads\\result_path");
 
-        ExcelReportBuilder<ProductsReceiptsDto> excelReportBuilder = new ExcelReportBuilder<>(productsReceiptsService, productsReceiptsMapper);
+        ExcelReportBuilder<ProductsReceiptsWithTotValueDto> excelReportBuilder = new ExcelReportBuilder<>(productsReceiptsService);
 
         excelReportBuilder
                 .query(namedQuery)
-                .structure(ProductsReceiptsDto.class)
+                .structure(ProductsReceiptsWithTotValueDto.class)
                 .title(TITLE_REPORT)
                 .resultPath(RESULT_PATH)
                 .build();
