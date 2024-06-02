@@ -1,4 +1,4 @@
-package com.felipeagomes.service;
+package com.felipeagomes.services;
 
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.repositories.ProductsReceiptsRepository;

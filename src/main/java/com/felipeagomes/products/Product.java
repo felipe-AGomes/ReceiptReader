@@ -1,8 +1,5 @@
 package com.felipeagomes.products;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Product {
     private String codigo;
     private String nome;
@@ -61,16 +58,5 @@ public class Product {
                 .append(this.unidade).append(",\n\tvalor: ")
                 .append(this.valor).append("\n}");
         return sb.toString();
-    }
-
-    public Object getPosition(ProductColumn column) {
-        return switch (column) {
-            case CODIGO -> getCodigo();
-            case NOME -> getNome();
-            case QUANTIDADE -> getQuantidade();
-            case VALOR -> getValor();
-            case UNIDADE -> getUnidade();
-            default -> throw new IllegalArgumentException("Invalid column: " + column);
-        };
     }
 }

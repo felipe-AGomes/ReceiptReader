@@ -1,14 +1,10 @@
 package com.felipeagomes;
 
 import com.felipeagomes.entities.ProductsReceipts;
-import com.felipeagomes.receipt.ReceiptReader;
+import com.felipeagomes.receipts.ReceiptReader;
 import com.felipeagomes.repositories.ProductsReceiptsRepository;
-import com.felipeagomes.service.ProductsReceiptsService;
+import com.felipeagomes.services.ProductsReceiptsService;
 import com.felipeagomes.utils.ProductsReceiptsUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 
 import java.io.File;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.felipeagomes.receipt;
+package com.felipeagomes.receipts;
 
 import com.felipeagomes.products.Product;
 import com.felipeagomes.utils.DateUtil;

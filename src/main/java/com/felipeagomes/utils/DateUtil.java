@@ -1,10 +1,7 @@
 package com.felipeagomes.utils;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class DateUtil {
