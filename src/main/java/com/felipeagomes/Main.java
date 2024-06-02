@@ -2,18 +2,36 @@ package com.felipeagomes;
 
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.receipts.ReceiptReader;
+import com.felipeagomes.reports.ExcelReportBuilder;
 import com.felipeagomes.repositories.ProductsReceiptsRepository;
 import com.felipeagomes.services.ProductsReceiptsService;
 import com.felipeagomes.utils.ProductsReceiptsUtil;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 public class Main {
     private static final ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(new ProductsReceiptsRepository());
 
     public static void main(String[] args) {
-        saveProductsReceipts("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf");
+        //saveProductsReceipts("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf");
+
+        createExcelReportForQuery("SELECT e FROM ProductsReceipts e");
+    }
+
+    private static void createExcelReportForQuery(String query) {
+        final String TITLE_REPORT = "RELATÓRIO_RECIBOS";
+        final Path RESULT_PATH = Path.of("C:\\Users\\falme\\Downloads\\result_path");
+
+        ExcelReportBuilder excelReportBuilder = new ExcelReportBuilder();
+
+        excelReportBuilder
+                .query(query)
+                .title(TITLE_REPORT)
+                .resultPath(RESULT_PATH)
+                .build();
+
     }
 
     private static void saveProductsReceipts(String path) {
@@ -29,21 +47,4 @@ public class Main {
 
         return receiptReader;
     }
-
-//    private static void createExcelReceipt() {
-//        final String XLSX_EXTENSION = ".xls";
-//
-//        ReceiptReader receiptReader = getReceiptReader();
-//
-//        Path resultPath = Path.of("C:\\Users\\falme\\Downloads\\" + receiptReader.getTitle() + XLSX_EXTENSION);
-//
-//        ExcelReceiptBuilder excelBuilder = new ExcelReceiptBuilder();
-//
-//        excelBuilder
-//                .setResultPath(resultPath)
-//                .setReceipt(receiptReader.getReceipt())
-//                .setTitle(receiptReader.getTitle());
-//
-//        excelBuilder.create();
-//    }
 }
