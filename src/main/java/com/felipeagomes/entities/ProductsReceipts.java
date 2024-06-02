@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "products_recepts")
+@Table(name = "products_receipts", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"code", "purchase_date"})
+})
 public class ProductsReceipts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
