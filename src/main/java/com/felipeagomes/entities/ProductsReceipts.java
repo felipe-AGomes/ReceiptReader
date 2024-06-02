@@ -9,6 +9,23 @@ import java.util.Date;
 @Table(name = "products_receipts", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"code", "purchase_date"})
 })
+@NamedQueries({
+        @NamedQuery(
+                name = "ProductsReceipts.findAll",
+                query = """
+                SELECT
+                     new com.felipeagomes.dtos.ProductsReceiptsDto(
+                                         e.code,
+                                         e.productName,
+                                         e.quantity,
+                                         e.value,
+                                         e.unit,
+                                         e.purchaseDate,
+                                         e.supermarket)
+                FROM
+                    ProductsReceipts e"""
+        )
+})
 public class ProductsReceipts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

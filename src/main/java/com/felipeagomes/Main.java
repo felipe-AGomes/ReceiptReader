@@ -1,33 +1,41 @@
 package com.felipeagomes;
 
+import com.felipeagomes.dtos.ProductsReceiptsDto;
 import com.felipeagomes.entities.ProductsReceipts;
+import com.felipeagomes.mappers.ProductsReceiptsMapper;
 import com.felipeagomes.receipts.ReceiptReader;
-import com.felipeagomes.reports.ExcelReportBuilder;
+import com.felipeagomes.reports.excel.ExcelReportBuilder;
 import com.felipeagomes.repositories.ProductsReceiptsRepository;
 import com.felipeagomes.services.ProductsReceiptsService;
 import com.felipeagomes.utils.ProductsReceiptsUtil;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
 public class Main {
-    private static final ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(new ProductsReceiptsRepository());
+    final private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReceipReader");
+    final private static ProductsReceiptsRepository productsReceiptsRepository = new ProductsReceiptsRepository(emf);
+    final private static ProductsReceiptsMapper productsReceiptsMapper = new ProductsReceiptsMapper();
+    final private static ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(productsReceiptsRepository);
 
     public static void main(String[] args) {
         //saveProductsReceipts("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf");
 
-        createExcelReportForQuery("SELECT e FROM ProductsReceipts e");
+        createExcelReportForQuery("ProductsReceipts.findAll");
     }
 
-    private static void createExcelReportForQuery(String query) {
+    private static void createExcelReportForQuery(String namedQuery) {
         final String TITLE_REPORT = "RELATÓRIO_RECIBOS";
         final Path RESULT_PATH = Path.of("C:\\Users\\falme\\Downloads\\result_path");
 
-        ExcelReportBuilder excelReportBuilder = new ExcelReportBuilder();
+        ExcelReportBuilder<ProductsReceiptsDto> excelReportBuilder = new ExcelReportBuilder<>(productsReceiptsService, productsReceiptsMapper);
 
         excelReportBuilder
-                .query(query)
+                .query(namedQuery)
+                .structure(ProductsReceiptsDto.class)
                 .title(TITLE_REPORT)
                 .resultPath(RESULT_PATH)
                 .build();
