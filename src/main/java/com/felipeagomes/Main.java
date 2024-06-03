@@ -24,18 +24,18 @@ public class Main {
     public static void main(String[] args) {
         //saveProductsReceipts("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf");
 
-        createExcelReportForQuery("ProductsReceipts.findAll");
+        createExcelReportForQuery("ProductsReceipts.findAll", ProductsReceiptsWithTotValueDto.class);
     }
 
-    private static void createExcelReportForQuery(String namedQuery) {
+    private static <T> void createExcelReportForQuery(String namedQuery, Class<T> structure) {
         final String TITLE_REPORT = "RELATÓRIO_RECIBOS";
         final Path RESULT_PATH = Path.of("C:\\Users\\falme\\Downloads\\result_path");
 
-        ExcelReportBuilder<ProductsReceiptsWithTotValueDto> excelReportBuilder = new ExcelReportBuilder<>(productsReceiptsService);
+        ExcelReportBuilder<T> excelReportBuilder = new ExcelReportBuilder<>(productsReceiptsService);
 
         excelReportBuilder
                 .query(namedQuery)
-                .structure(ProductsReceiptsWithTotValueDto.class)
+                .structure(structure)
                 .title(TITLE_REPORT)
                 .resultPath(RESULT_PATH)
                 .build();

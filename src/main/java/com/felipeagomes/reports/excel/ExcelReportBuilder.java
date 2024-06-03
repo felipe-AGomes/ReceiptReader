@@ -9,7 +9,7 @@ import com.felipeagomes.repositories.interfaces.EntityService;
 import java.nio.file.Path;
 import java.util.List;
 
-public class ExcelReportBuilder<S extends ProductsReceiptsDtoInterface> implements ReportBuilder<S, ExcelReportBuilder<S>> {
+public class ExcelReportBuilder<S> implements ReportBuilder<S, ExcelReportBuilder<S>> {
     final private EntityService entityService;
     private String query;
     private String title;
@@ -66,7 +66,7 @@ public class ExcelReportBuilder<S extends ProductsReceiptsDtoInterface> implemen
                 .build();
     }
 
-    private <T extends ProductsReceiptsDtoInterface> List<T> executeQueryAndGetResultList(String namedQuery, Class<T> structure) {
+    private <T> List<T> executeQueryAndGetResultList(String namedQuery, Class<T> structure) {
         return entityService.executeQueryAndGetResultList(namedQuery, structure);
     }
 }

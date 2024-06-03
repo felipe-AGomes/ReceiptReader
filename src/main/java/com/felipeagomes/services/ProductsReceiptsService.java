@@ -23,14 +23,14 @@ public class ProductsReceiptsService implements EntityService {
         productsReceiptsRepository.saveAll(productsReceipts);
     }
 
-    public <T extends ProductsReceiptsDtoInterface> List<T> executeQueryAndGetResultList(String queryString, Class<T> structure) {
+    public <T> List<T> executeQueryAndGetResultList(String queryString, Class<T> structure) {
         List<ProductsReceiptsDto> productsReceiptsDto = productsReceiptsRepository.executeQueryAndGetResultList(queryString);
 
         return productsReceiptsDto.stream().map(product -> productsReceiptsMapper.toDto(product, structure)).toList();
     }
 
     @Override
-    public <T extends ProductsReceiptsDtoInterface> DataRow toDataRow(T data) {
+    public <T> DataRow toDataRow(T data) {
         return productsReceiptsMapper.toDataRow(data);
     }
 }
