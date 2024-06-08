@@ -1,6 +1,7 @@
 package com.felipeagomes.receipts;
 
 import com.felipeagomes.products.Product;
+import com.felipeagomes.receipts.interfaces.ReceiptReader;
 import com.felipeagomes.utils.DateUtil;
 import com.felipeagomes.utils.StringUtil;
 import org.apache.pdfbox.Loader;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReceiptReader {
+public class PDFReceiptReader implements ReceiptReader {
 
     private List<String> contentLines;
     private List<Product> products = new ArrayList<>();
@@ -24,16 +25,14 @@ public class ReceiptReader {
     private Date date;
     private String title;
 
-    public ReceiptReader(File receiptFile) {
-        readReceipt(receiptFile);
-    }
-
-    private void readReceipt(File receiptFile) {
+    public ReceiptReader readReceipt(File receiptFile) {
         this.contentLines = extractContentFromReceipt(receiptFile);
         this.products = extractProductsFromContent();
         this.companyName = extractCompanyNameFromContent();
         this.date = extractDateFromContent();
         setTitle();
+
+        return this;
     }
 
     private List<String> extractContentFromReceipt(File receiptFile) {

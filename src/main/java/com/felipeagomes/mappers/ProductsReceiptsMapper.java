@@ -3,6 +3,9 @@ package com.felipeagomes.mappers;
 import com.felipeagomes.dtos.ProductsReceiptsDto;
 import com.felipeagomes.dtos.ProductsReceiptsWithTotValueDto;
 import com.felipeagomes.dtos.interfaces.ProductsReceiptsDtoInterface;
+import com.felipeagomes.entities.ProductsReceipts;
+import com.felipeagomes.products.Product;
+import com.felipeagomes.receipts.interfaces.ReceiptReader;
 import com.felipeagomes.reports.excel.DataCell;
 import com.felipeagomes.reports.excel.DataRow;
 import org.apache.poi.ss.usermodel.CellType;
@@ -50,5 +53,19 @@ public class ProductsReceiptsMapper {
         } else {
             return (T) productsReceiptsDto;
         }
+    }
+
+    public List<ProductsReceipts> receiptReaderToProductsReceipts(ReceiptReader receiptReader) {
+        List<ProductsReceipts> productsReceipts = new ArrayList<>();
+        for (Product product : receiptReader.getProducts()) {
+            BigDecimal valor = BigDecimal.valueOf(product.getValor());
+            ProductsReceipts productReceipt = new ProductsReceipts(product.getCodigo(), product.getNome(), product.getQuantidade(), product.getUnidade(), valor);
+            productReceipt.setSupermarket(receiptReader.getCompanyName());
+            productReceipt.setPurchaseDate(receiptReader.getDate());
+
+            productsReceipts.add(productReceipt);
+        }
+
+        return productsReceipts;
     }
 }

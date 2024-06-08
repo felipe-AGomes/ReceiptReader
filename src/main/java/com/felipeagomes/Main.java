@@ -1,12 +1,13 @@
 package com.felipeagomes;
 
-import com.felipeagomes.dtos.ProductsReceiptsWithTotValueDto;
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.mappers.ProductsReceiptsMapper;
-import com.felipeagomes.receipts.ReceiptReader;
+import com.felipeagomes.receipts.PDFReceiptReader;
+import com.felipeagomes.receipts.interfaces.ReceiptReader;
 import com.felipeagomes.reports.excel.ExcelReportBuilder;
 import com.felipeagomes.repositories.ProductsReceiptsRepository;
 import com.felipeagomes.services.ProductsReceiptsService;
+import com.felipeagomes.services.ReceiptReaderService;
 import com.felipeagomes.utils.ProductsReceiptsUtil;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -22,12 +23,17 @@ public class Main {
     final private static ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(productsReceiptsRepository, productsReceiptsMapper);
 
     public static void main(String[] args) {
-        //saveProductsReceipts("C:\\Users\\falme\\Downloads\\Consulta Pública de NFCe (2).pdf");
+        ReceiptReaderService receiptReaderService = new ReceiptReaderService();
 
-        createExcelReportForQuery("ProductsReceipts.findAll", ProductsReceiptsWithTotValueDto.class);
+        receiptReaderService.saveReceiptAsPDF(new File("C:\\\\Users\\\\falme\\\\Downloads\\\\Consulta Pública de NFCe (2).pdf"));
+        receiptReaderService.saveReceiptAsImage(new File("C:\\\\Users\\\\falme\\\\Downloads\\\\Consulta Pública de NFCe (2).pdf"));
+
+        //createExcelReportForQuery("ProductsReceipts.findAll", ProductsReceiptsWithTotValueDto.class);
     }
 
-    private static <T> void createExcelReportForQuery(String namedQuery, Class<T> structure) {
+    @SuppressWarnings("SameParameterValue")
+    private static <T> void createExcelReportForQuery(String namedQuery,
+                                                      Class<T> structure) {
         final String TITLE_REPORT = "RELATÓRIO_RECIBOS";
         final Path RESULT_PATH = Path.of("C:\\Users\\falme\\Downloads\\result_path");
 
@@ -40,19 +46,5 @@ public class Main {
                 .resultPath(RESULT_PATH)
                 .build();
 
-    }
-
-    private static void saveProductsReceipts(String path) {
-        ReceiptReader receiptReader = getReceiptReader(path);
-        List<ProductsReceipts> productsReceipts = ProductsReceiptsUtil.receiptReaderToProductsReceipts(receiptReader);
-
-        productsReceiptsService.saveAllProductsReceipts(productsReceipts);
-    }
-
-    private static ReceiptReader getReceiptReader(String path) {
-        ReceiptReader receiptReader = new ReceiptReader(new File(path));
-        receiptReader.setProducts(ProductsReceiptsUtil.aggregateProducts(receiptReader));
-
-        return receiptReader;
     }
 }
