@@ -14,7 +14,7 @@ public class ReportService {
     private final ProductsReceiptsMapper productsReceiptsMapper = new ProductsReceiptsMapper();
     private final ProductsReceiptsService productsReceiptsService = new ProductsReceiptsService(productsReceiptsRepository, productsReceiptsMapper);
 
-    public <T> void createExcelReportForNamedQueryOnResultPath(String namedQuery, Class<T> structure, Path resultPath) {
+    public <T> void generateExcelReportForQueryToPath(String namedQuery, Class<T> structure, Path resultPath) {
         final String TITLE_REPORT = "RELATÓRIO_RECIBOS";
 
         ExcelReportBuilder<T> excelReportBuilder = new ExcelReportBuilder<>(productsReceiptsService);

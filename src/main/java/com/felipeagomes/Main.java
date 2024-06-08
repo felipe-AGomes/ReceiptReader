@@ -14,6 +14,6 @@ public class Main {
         // receiptReaderService.saveReceiptAsPDF(new File("C:\\\\Users\\\\falme\\\\Downloads\\\\Consulta Pública de NFCe (2).pdf"));
         // receiptReaderService.saveReceiptAsImage(new File("C:\\\\Users\\\\falme\\\\Downloads\\\\Consulta Pública de NFCe (2).pdf"));
 
-        reportService.createExcelReportForNamedQueryOnResultPath("ProductsReceipts.findAll", ProductsReceiptsWithTotValueDto.class, Path.of("C:\\Users\\falme\\Downloads\\result_path"));
+        reportService.generateExcelReportForQueryToPath("ProductsReceipts.findAll", ProductsReceiptsWithTotValueDto.class, Path.of("C:\\Users\\falme\\Downloads\\result_path"));
     }
 }
