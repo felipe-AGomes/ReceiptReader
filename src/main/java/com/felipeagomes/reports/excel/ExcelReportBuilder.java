@@ -1,8 +1,6 @@
 package com.felipeagomes.reports.excel;
 
-import com.felipeagomes.dtos.interfaces.ProductsReceiptsDtoInterface;
 import com.felipeagomes.exceptions.IncompleteReportBuilderException;
-import com.felipeagomes.mappers.MapperService;
 import com.felipeagomes.reports.interfaces.ReportBuilder;
 import com.felipeagomes.repositories.interfaces.EntityService;
 

@@ -1,7 +1,6 @@
 package com.felipeagomes.services;
 
 import com.felipeagomes.dtos.ProductsReceiptsDto;
-import com.felipeagomes.dtos.interfaces.ProductsReceiptsDtoInterface;
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.mappers.ProductsReceiptsMapper;
 import com.felipeagomes.reports.excel.DataRow;

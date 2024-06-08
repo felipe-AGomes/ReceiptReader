@@ -13,17 +13,17 @@ import java.util.Date;
         @NamedQuery(
                 name = "ProductsReceipts.findAll",
                 query = """
-                SELECT
-                     new com.felipeagomes.dtos.ProductsReceiptsDto(
-                                         e.code,
-                                         e.productName,
-                                         e.quantity,
-                                         e.value,
-                                         e.unit,
-                                         e.purchaseDate,
-                                         e.supermarket)
-                FROM
-                    ProductsReceipts e"""
+                        SELECT
+                             new com.felipeagomes.dtos.ProductsReceiptsDto(
+                                                 e.code,
+                                                 e.productName,
+                                                 e.quantity,
+                                                 e.value,
+                                                 e.unit,
+                                                 e.purchaseDate,
+                                                 e.supermarket)
+                        FROM
+                            ProductsReceipts e"""
         )
 })
 public class ProductsReceipts {
@@ -53,7 +53,8 @@ public class ProductsReceipts {
     @Column(name = "supermarket", nullable = false)
     private String supermarket;
 
-    public ProductsReceipts() {}
+    public ProductsReceipts() {
+    }
 
     public ProductsReceipts(String code, String productName, Double quantity, String unit, BigDecimal value) {
         this.code = code;

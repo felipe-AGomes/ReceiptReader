@@ -13,11 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Date;
 import java.util.List;
 
 public class SimpleExcelBuilder {
@@ -108,7 +104,7 @@ public class SimpleExcelBuilder {
     private void setStringCellValue(Cell cell, Object cellValue) {
         if (cellValue instanceof String) {
             cell.setCellValue((String) cellValue);
-        } else if (cellValue instanceof Timestamp timestamp){
+        } else if (cellValue instanceof Timestamp timestamp) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             cell.setCellValue(timestamp.toLocalDateTime().format(dtf));
         } else {

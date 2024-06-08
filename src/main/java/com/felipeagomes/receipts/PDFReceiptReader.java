@@ -154,6 +154,10 @@ public class PDFReceiptReader implements ReceiptReader {
         return products;
     }
 
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -171,13 +175,5 @@ public class PDFReceiptReader implements ReceiptReader {
         String formattedCompanyName = StringUtil.formatCompanyName(companyName);
         String formattedDate = DateUtil.toString(date, DESIRED_FORMAT);
         title = (formattedCompanyName.trim() + " " + formattedDate.trim()).trim();
-    }
-
-    public Receipt getReceipt() {
-        return new Receipt(products);
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 }

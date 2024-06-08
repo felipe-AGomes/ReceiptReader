@@ -1,17 +1,14 @@
 package com.felipeagomes.services;
 
-import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.mappers.ProductsReceiptsMapper;
 import com.felipeagomes.receipts.PDFReceiptReader;
 import com.felipeagomes.receipts.interfaces.ReceiptReader;
 import com.felipeagomes.repositories.ProductsReceiptsRepository;
 import com.felipeagomes.utils.ProductsReceiptsUtil;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.io.File;
-import java.nio.file.Path;
 
 public class ReceiptReaderService {
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReceipReader");

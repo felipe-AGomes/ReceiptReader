@@ -5,10 +5,16 @@ import java.util.Date;
 
 public interface ProductsReceiptsDtoInterface {
     String code();
+
     String productName();
+
     Double quantity();
+
     BigDecimal value();
+
     String unit();
+
     Date purchaseDate();
+
     String superMarket();
 }

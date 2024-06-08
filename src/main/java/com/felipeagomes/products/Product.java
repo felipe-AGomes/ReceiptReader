@@ -49,14 +49,12 @@ public class Product {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb
-                .append("{\n").append("\tcodigo: ")
-                .append(this.codigo).append(",\n\tnome: ")
-                .append(this.nome).append(",\n\tquantidade: ")
-                .append(this.quantidade).append(",\n\tunidade: ")
-                .append(this.unidade).append(",\n\tvalor: ")
-                .append(this.valor).append("\n}");
-        return sb.toString();
+        String sb = "{\n" + "\tcodigo: " +
+                this.codigo + ",\n\tnome: " +
+                this.nome + ",\n\tquantidade: " +
+                this.quantidade + ",\n\tunidade: " +
+                this.unidade + ",\n\tvalor: " +
+                this.valor + "\n}";
+        return sb;
     }
 }

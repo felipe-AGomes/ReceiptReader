@@ -3,9 +3,11 @@ package com.felipeagomes.repositories;
 import com.felipeagomes.dtos.ProductsReceiptsDto;
 import com.felipeagomes.entities.ProductsReceipts;
 import com.felipeagomes.exceptions.ProductsReceiptsAlreadyExistsException;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.query.QueryTypeMismatchException;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class ProductsReceiptsRepository {
             }
 
             tr.commit();
-        } catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             throw new ProductsReceiptsAlreadyExistsException();
         } catch (Exception e) {
             e.printStackTrace();

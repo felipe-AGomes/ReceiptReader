@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface ReceiptReader {
     ReceiptReader readReceipt(File file);
+
     Date getDate();
+
     String getCompanyName();
+
     List<Product> getProducts();
+
     void setProducts(List<Product> products);
 }
